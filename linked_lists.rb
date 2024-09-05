@@ -13,11 +13,35 @@ end
 
 
 class LinkedList
+  @@node_num = 0
+
   def initialize
     @head = nil
   end
 
-  def getTail
+  def append(value)
+    if @head.nil?
+      @head = Node.new(value)
+    else
+      tail.changeNextNode(Node.new(value))
+    end
+    @@node_num += 1
+  end
+
+  def prepend(value)
+    @head = Node.new(value, @head)
+    @@node_num += 1
+  end
+
+  def size
+    return @@node_num
+  end
+
+  def head
+    return @head
+  end
+
+  def tail
     node = @head
     loop do
       next_node = node.next_node
@@ -26,17 +50,4 @@ class LinkedList
     end
     return node
   end
-
-  def append(value)
-    if @head.nil?
-      @head = Node.new(value)
-    else
-      getTail.changeNextNode(Node.new(value))
-    end
-  end
-
-  def prepend(value)
-    @head = Node.new(value, @head)
-  end
 end
-
