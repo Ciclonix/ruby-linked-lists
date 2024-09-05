@@ -42,8 +42,12 @@ class LinkedList
   end
 
   def tail
+    return at(@@node_num)
+  end
+
+  def at(index)
     node = @head
-    loop do
+    index.times do
       next_node = node.next_node
       break if next_node.nil?
       node = next_node
