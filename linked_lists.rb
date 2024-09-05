@@ -6,10 +6,6 @@ class Node
     @next_node = next_node
   end
 
-  def getNextNode(node)
-    return @next_node
-  end
-
   def changeNextNode(node)
     @next_node = node
   end
@@ -24,7 +20,7 @@ class LinkedList
   def getTail
     node = @head
     loop do
-      next_node = node.getNextNode(node)
+      next_node = node.next_node
       break if next_node.nil?
       node = next_node
     end
@@ -38,4 +34,9 @@ class LinkedList
       getTail.changeNextNode(Node.new(value))
     end
   end
+
+  def prepend(value)
+    @head = Node.new(value, @head)
+  end
 end
+
