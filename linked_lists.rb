@@ -1,18 +1,15 @@
 class Node
-  attr_reader :value, :next_node
+  attr_accessor :value, :next_node
 
   def initialize(value = nil, next_node = nil)
     @value = value
     @next_node = next_node
   end
-
-  def changeNextNode(node)
-    @next_node = node
-  end
 end
 
 
 class LinkedList
+  attr_reader :head
   @@node_num = 0
 
   def initialize
@@ -23,7 +20,7 @@ class LinkedList
     if head.nil?
       @head = Node.new(value)
     else
-      tail.changeNextNode(Node.new(value))
+      tail.next_node = Node.new(value)
     end
     @@node_num += 1
   end
@@ -37,10 +34,6 @@ class LinkedList
     return @@node_num
   end
 
-  def head
-    return @head
-  end
-
   def tail
     return at(size - 1)
   end
@@ -48,15 +41,14 @@ class LinkedList
   def at(index)
     node = head
     index.times do
-      next_node = node.next_node
-      break if next_node.nil?
-      node = next_node
+      break if node.nil?
+      node = node.next_node
     end
     return node
   end
 
   def pop
-    at(size - 2).changeNextNode(nil)
+    at(size - 2).next_node = nil
     @@node_num -= 1
   end
 
@@ -82,11 +74,33 @@ class LinkedList
     string = ""
     node = head
     size.times do |idx|
-      next_node = node.next_node
-      return string += "nil" if next_node.nil?
-      node = next_node
       string += "( #{node.value} ) -> "
+      node = node.next_node
     end
-    return string
+    return string += "nil"
+  end
+
+  def insert_at(value, index)
+    if index.zero?
+      prepend(value)
+    else
+      node_pre = at(index - 1)
+      node_pre.next_node = Node.new(value, node_pre.next_node)
+      @@node_num += 1
+    end
+  end
+
+  def remove_at(index)
+    case index
+    when size - 1
+      pop
+    when 0
+      @head = head.next_node
+      @@node_num -= 1
+    when 0..(size - 1)
+      node_pre = at(index - 1)
+      node_pre.next_node = node_pre.next_node.next_node
+      @@node_num -= 1
+    end
   end
 end
