@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Node
   attr_accessor :value, :next_node
 
@@ -10,10 +12,10 @@ end
 
 class LinkedList
   attr_reader :head
-  @@node_num = 0
 
   def initialize
     @head = nil
+    @node_num = 0
   end
 
   def append(value)
@@ -22,16 +24,16 @@ class LinkedList
     else
       tail.next_node = Node.new(value)
     end
-    @@node_num += 1
+    @node_num += 1
   end
 
   def prepend(value)
     @head = Node.new(value, head)
-    @@node_num += 1
+    @node_num += 1
   end
 
   def size
-    return @@node_num
+    return @node_num
   end
 
   def tail
@@ -49,7 +51,7 @@ class LinkedList
 
   def pop
     at(size - 2).next_node = nil
-    @@node_num -= 1
+    @node_num -= 1
   end
 
   def contains?(value)
@@ -73,7 +75,7 @@ class LinkedList
   def to_s
     string = ""
     node = head
-    size.times do |idx|
+    size.times do
       string += "( #{node.value} ) -> "
       node = node.next_node
     end
@@ -86,7 +88,7 @@ class LinkedList
     else
       node_pre = at(index - 1)
       node_pre.next_node = Node.new(value, node_pre.next_node)
-      @@node_num += 1
+      @node_num += 1
     end
   end
 
@@ -96,11 +98,11 @@ class LinkedList
       pop
     when 0
       @head = head.next_node
-      @@node_num -= 1
+      @node_num -= 1
     when 0..(size - 1)
       node_pre = at(index - 1)
       node_pre.next_node = node_pre.next_node.next_node
-      @@node_num -= 1
+      @node_num -= 1
     end
   end
 end
